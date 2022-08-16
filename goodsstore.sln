@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "goodsstore", "goodsstore\goodsstore.esproj", "{613276BC-3509-4B1B-B16C-12CDD10F2DBC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "goodsstore_backend", "goodsstore_backend\goodsstore_backend.csproj", "{80395213-A15A-42C0-8B16-363B1C80CE96}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{613276BC-3509-4B1B-B16C-12CDD10F2DBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{613276BC-3509-4B1B-B16C-12CDD10F2DBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{613276BC-3509-4B1B-B16C-12CDD10F2DBC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{613276BC-3509-4B1B-B16C-12CDD10F2DBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{613276BC-3509-4B1B-B16C-12CDD10F2DBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{613276BC-3509-4B1B-B16C-12CDD10F2DBC}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{80395213-A15A-42C0-8B16-363B1C80CE96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80395213-A15A-42C0-8B16-363B1C80CE96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80395213-A15A-42C0-8B16-363B1C80CE96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80395213-A15A-42C0-8B16-363B1C80CE96}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {51C5AFD2-6562-4872-BA69-0CF3A57B180E}
+	EndGlobalSection
+EndGlobal
