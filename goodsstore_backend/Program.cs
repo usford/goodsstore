@@ -1,7 +1,10 @@
+﻿using goodsstore_backend.Models;
 using goodsstore_backend.EFCore;
 using goodsstore_backend.EFCore.Repositories;
 using goodsstore_backend.EFCore.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+
+Console.OutputEncoding = System.Text.Encoding.UTF8;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -14,31 +17,24 @@ builder.Services.AddDbContext<GoodsStoreDbContext>(options =>
 
 builder.Services.AddTransient<ICustomersRepository, CustomersRepository>();
 
-//builder.Services.AddControllers();
-
-//builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    //app.UseSwagger();
-    //app.UseSwaggerUI();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 //app.UseHttpsRedirection();
+app.MapControllers();
 
 //app.UseAuthorization();
 
-//app.MapControllers();
 
-
-app.MapGet("/", (ICustomersRepository customersRepository) =>
-{
-    //return userRepository.SingleOrDefaultAsync(u => u.Id == 3);
-    return "asd";
-});
 
 app.Run();
