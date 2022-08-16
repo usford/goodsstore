@@ -10,6 +10,7 @@ namespace goodsstore_backend.src.Controllers
 {
     [ApiController]
     [Route("customers")]
+    [Produces("application/json")]
     public class CustomersContoller : ControllerBase
     {
         private readonly ICustomersRepository _customersRepository;
