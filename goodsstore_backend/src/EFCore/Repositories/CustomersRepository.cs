@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using goodsstore_backend.Models;
 using goodsstore_backend.EFCore;
+using Microsoft.AspNetCore.Mvc;
 using goodsstore_backend.EFCore.Repositories.Interfaces;
 
 
@@ -15,45 +16,46 @@ namespace goodsstore_backend.EFCore.Repositories
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        public IEnumerable<Customer> GetAll()
+        public async Task<IEnumerable<Customer>> Get()
         {
-            return _dbContext.Customers;
+            return await _dbContext.Customers.ToListAsync();
         }
-        public Customer? SingleOrDefault(Guid customerId)
+        public async Task<Customer?> Get(Guid customerId)
         {
-            Customer? customer = _dbContext.Customers.SingleOrDefault(x => x.Id == customerId);
+            Customer? customer = await _dbContext.Customers.SingleOrDefaultAsync(x => x.Id == customerId);
 
             return customer;
         }
         public void Add(Customer customer)
         { 
             _dbContext.Customers.Add(customer);
-            _dbContext.SaveChanges();
         }
-        public Customer? Remove(Guid customerId)
+        public async Task<Customer?> Update(Customer customer)
         {
-            var customer = _dbContext.Customers.SingleOrDefault(x => x.Id == customerId);
-
-            if (customer is not null)
-            {
-                _dbContext.Customers.Remove(customer);
-                _dbContext.SaveChanges();
-            }
-
-            return customer;
-        }
-        public Customer? Update(Customer customer)
-        {
-            bool check = _dbContext.Customers.Any(x => x.Id == customer.Id);
+            bool check = await _dbContext.Customers.AnyAsync(x => x.Id == customer.Id);
 
             if (check)
             {
                 _dbContext.Customers.Update(customer);
-                _dbContext.SaveChanges();
                 return customer;
             }
 
             return null;
+        }
+        public async Task<Customer?> Remove(Guid customerId)
+        {
+            Customer? customer = await _dbContext.Customers.SingleOrDefaultAsync(x => x.Id == customerId);
+
+            if (customer is not null)
+            {
+                _dbContext.Customers.Remove(customer);
+            }
+
+            return customer;
+        }     
+        public async Task<int> SaveChangesAsync(CancellationToken token = default)
+        {
+            return await _dbContext.SaveChangesAsync(token);
         }
     }
 }

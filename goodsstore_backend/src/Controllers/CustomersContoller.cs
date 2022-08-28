@@ -1,12 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Mvc;
 using goodsstore_backend.Models;
-using goodsstore_backend.EFCore.Repositories;
 using goodsstore_backend.EFCore.Repositories.Interfaces;
 
-namespace goodsstore_backend.src.Controllers
+namespace goodsstore_backend.Controllers
 {
     [ApiController]
     [Route("customers")]
@@ -20,60 +16,77 @@ namespace goodsstore_backend.src.Controllers
         }
         
         [HttpGet]
-        public IEnumerable<Customer> Get()
+        public async Task<ActionResult<IEnumerable<Customer>>> Get()
         {
-            return _customersRepository.GetAll().ToArray();
+            return new ObjectResult(await _customersRepository.Get());
         }
 
         [HttpGet("{id}")]
-        public Customer? Get(Guid id)
+        public async Task<ActionResult<Customer>> Get(Guid id)
         {
-            Customer? customer = _customersRepository.SingleOrDefault(id);
+            Customer? customer = await _customersRepository.Get(id);
 
-            return customer;
+            if (customer is null)
+            {
+                return NotFound();
+            }
+
+            return new ObjectResult(customer);
         }
 
         [HttpPost]
-        public Customer? Post(string name, string? address = null, byte discount = 0)
+        public async Task<ActionResult<Customer>> Post(string name, string? address = null, byte discount = 0)
         {
             if (string.IsNullOrEmpty(name))
             {
-                return null;
+                return BadRequest();
             }
 
-            string code = CreateCode();
-
-            var customer = new Customer(name, code) { Address = address, Discount = discount };
-            _customersRepository.Add(customer);
-
-            return customer;
-        }
-
-        [HttpPut]
-        public Customer? Put(Customer customer)
-        {
-            if (customer is null) return null;
-
-            Customer? newCustomer = _customersRepository.Update(customer);
-
-            return newCustomer;
-        }
-
-        [HttpDelete("{id}")]
-        public Customer? Delete(Guid id)
-        {
-            Customer? customer = _customersRepository.Remove(id);
-
-            return customer;
-        }
-
-        private string CreateCode()
-        {
             string leftSideCode = new Random().Next(0, 10000).ToString("0000");
             string rightSideCode = DateTime.Now.Year.ToString();
             var code = $"{leftSideCode}-{rightSideCode}";
 
-            return code;
+            var customer = new Customer(name, code) { Address = address, Discount = discount };
+            _customersRepository.Add(customer);
+
+            await _customersRepository.SaveChangesAsync();
+
+            return Ok(customer);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<Customer>> Put(Customer customer)
+        {
+            if (customer is null)
+            {
+                return BadRequest();
+            };
+
+            Customer? newCustomer = await _customersRepository.Update(customer);
+
+            if (newCustomer is null)
+            {
+                return NotFound();
+            }
+
+            await _customersRepository.SaveChangesAsync();
+
+            return Ok(newCustomer);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Customer>> Delete(Guid id)
+        {
+            Customer? customer = await _customersRepository.Remove(id);
+
+            if (customer is null)
+            {
+                return NotFound();
+            }
+
+            await _customersRepository.SaveChangesAsync();
+
+            return Ok(customer);
         }
     }
 }

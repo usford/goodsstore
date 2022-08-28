@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace goodsstore_backend.Models
@@ -6,15 +7,15 @@ namespace goodsstore_backend.Models
     [Table("ORDER")]
     public class Order
     {
-        public Order(Guid id, Guid customerId, DateTime orderDate)
+        public Order(Guid customerId, DateTime orderDate)
         {
-            Id = id;
+            Id = Guid.NewGuid();
             CustomerId = customerId;
             OrderDate = orderDate;
         }
 
         [Column("ID")]
-        [Required]
+        [Key]
         public Guid Id { get; set; }
 
         [Column("CUSTOMER_ID")]
@@ -27,13 +28,15 @@ namespace goodsstore_backend.Models
         public DateTime OrderDate { get; set; }
 
         [Column("SHIPMENT_DATE")]
-        [Required]
+        [DefaultValue(null)]
         public DateTime? ShipmentDate { get; set; }
 
         [Column("ORDER_NUMBER")]
+        [DefaultValue(1)]
         public int? OrderNumber { get; set; }
 
         [Column("STATUS")]
+        [DefaultValue("Новый")]
         public string? Status { get; set; }
     }
 }
