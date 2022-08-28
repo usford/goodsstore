@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using goodsstore_backend.Models;
+using goodsstore_backend.EFCore.Repositories.Interfaces;
 
 namespace goodsstore_backend.EFCore
 {
-    public class GoodsStoreDbContext : DbContext
+    public class GoodsStoreDbContext : DbContext, IGoodsStoreDbContext
     {
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }

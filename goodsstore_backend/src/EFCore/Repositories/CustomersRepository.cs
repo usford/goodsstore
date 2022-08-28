@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 using goodsstore_backend.Models;
 using goodsstore_backend.EFCore;
-using Microsoft.AspNetCore.Mvc;
 using goodsstore_backend.EFCore.Repositories.Interfaces;
 
 
@@ -9,9 +9,9 @@ namespace goodsstore_backend.EFCore.Repositories
 {
     public class CustomersRepository : ICustomersRepository
     {
-        private readonly GoodsStoreDbContext _dbContext;
+        private readonly IGoodsStoreDbContext _dbContext;
 
-        public CustomersRepository(GoodsStoreDbContext dbContext)
+        public CustomersRepository(IGoodsStoreDbContext dbContext)
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
@@ -55,7 +55,12 @@ namespace goodsstore_backend.EFCore.Repositories
         }     
         public async Task<int> SaveChangesAsync(CancellationToken token = default)
         {
-            return await _dbContext.SaveChangesAsync(token);
+            if (_dbContext is DbContext dbContext)
+            {
+                return await dbContext.SaveChangesAsync(token);
+            }
+
+            return 0;
         }
     }
 }

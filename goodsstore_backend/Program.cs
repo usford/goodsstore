@@ -9,7 +9,7 @@ Console.OutputEncoding = System.Text.Encoding.UTF8;
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
-builder.Services.AddDbContext<GoodsStoreDbContext>(options =>
+builder.Services.AddDbContext<IGoodsStoreDbContext, GoodsStoreDbContext>(options =>
 {
     string connection = config.GetConnectionString("LocalDb");
     options.UseSqlServer(connection);

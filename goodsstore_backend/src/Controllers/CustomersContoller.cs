@@ -18,7 +18,7 @@ namespace goodsstore_backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> Get()
         {
-            return new ObjectResult(await _customersRepository.Get());
+            return Ok(await _customersRepository.Get());
         }
 
         [HttpGet("{id}")]
@@ -31,7 +31,7 @@ namespace goodsstore_backend.Controllers
                 return NotFound();
             }
 
-            return new ObjectResult(customer);
+            return Ok(customer);
         }
 
         [HttpPost]

@@ -6,9 +6,9 @@ namespace goodsstore_backend.EFCore.Repositories
 {
     public class OrdersRepository : IOrdersRepository
     {
-        private readonly GoodsStoreDbContext _dbContext;
+        private readonly IGoodsStoreDbContext _dbContext;
 
-        public OrdersRepository(GoodsStoreDbContext dbContext)
+        public OrdersRepository(IGoodsStoreDbContext dbContext)
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext)); ;
         }
@@ -52,7 +52,12 @@ namespace goodsstore_backend.EFCore.Repositories
         }
         public async Task<int> SaveChangesAsync(CancellationToken token = default)
         {
-            return await _dbContext.SaveChangesAsync(token);
+            if (_dbContext is DbContext dbContext)
+            {
+                return await dbContext.SaveChangesAsync(token);
+            }
+
+            return 0;
         }       
     }
 }

@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\goodsstore_backend\goodsstore_backend.csproj" />
   </ItemGroup>
 
 </Project>
