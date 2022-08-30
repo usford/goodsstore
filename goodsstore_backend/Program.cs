@@ -18,6 +18,7 @@ builder.Services.AddDbContext<IGoodsStoreDbContext, GoodsStoreDbContext>(options
 builder.Services.AddTransient<ICustomersRepository, CustomersRepository>();
 builder.Services.AddTransient<IOrdersRepository, OrdersRepository>();
 builder.Services.AddTransient<IItemsRepository, ItemsRepository>();
+builder.Services.AddTransient<IOrdersElementsRepository, OrdersElementsRepository>();
 
 builder.Services.AddControllers();
 //builder.Services.AddEndpointsApiExplorer();

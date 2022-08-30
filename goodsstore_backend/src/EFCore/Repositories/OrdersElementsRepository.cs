@@ -4,7 +4,7 @@ using goodsstore_backend.EFCore.Repositories.Interfaces;
 
 namespace goodsstore_backend.EFCore.Repositories
 {
-    public class OrdersElementsRepository
+    public class OrdersElementsRepository : IOrdersElementsRepository
     {
         public OrdersElementsRepository(IGoodsStoreDbContext dbContext)
         {

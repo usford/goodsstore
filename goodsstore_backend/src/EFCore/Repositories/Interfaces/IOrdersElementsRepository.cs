@@ -2,7 +2,7 @@
 
 namespace goodsstore_backend.EFCore.Repositories.Interfaces
 {
-    public interface IOrdersElements : ICrud<OrderElement>
+    public interface IOrdersElementsRepository : ICrud<OrderElement>
     {
     }
 }

@@ -28,10 +28,7 @@ namespace goodsstore_backend.Controllers
         {
             Customer? customer = await _customersRepository.Get(id);
 
-            if (customer is null)
-            {
-                return NotFound("Заказчик с таким ID не найден");
-            }
+            if (customer is null) return NotFound("Заказчик с таким ID не найден");
 
             return Ok(customer);
         }
@@ -39,10 +36,7 @@ namespace goodsstore_backend.Controllers
         [HttpPost]
         public async Task<ActionResult<Customer>> Post(string name, string? address = null, byte discount = 0)
         {
-            if (string.IsNullOrEmpty(name))
-            {
-                return BadRequest("Отсутствует имя у заказчика");
-            }
+            if (string.IsNullOrEmpty(name)) return BadRequest("Отсутствует имя у заказчика");
 
             //Формат XXXX-ГГГГ, где X - число, а ГГГГ - год
             string leftSideCode = new Random().Next(0, 10000).ToString("0000");
@@ -60,24 +54,15 @@ namespace goodsstore_backend.Controllers
         [HttpPut]
         public async Task<ActionResult<Customer>> Put(Customer customer)
         {
-            if (customer is null)
-            {
-                return BadRequest("Заказчик пустой");
-            };
+            if (customer is null) return BadRequest("Заказчик пустой");
 
             Customer? newCustomer = await _customersRepository.Update(customer);
 
-            if (newCustomer is null)
-            {
-                return NotFound("Заказчик с таким ID не найден");
-            }
+            if (newCustomer is null) return NotFound("Заказчик с таким ID не найден");
 
             var regex = new Regex(@"^\d{4}-\d{4}$");
 
-            if (!regex.IsMatch(newCustomer.Code))
-            {
-                return BadRequest("Неверный формат кода");
-            }
+            if (!regex.IsMatch(newCustomer.Code)) return BadRequest("Неверный формат кода");
 
             await _customersRepository.SaveChangesAsync();
 
@@ -85,14 +70,11 @@ namespace goodsstore_backend.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Customer>> Delete(Guid id)
+        public async Task<ActionResult<Customer>> Delete(Guid customerId)
         {
-            Customer? customer = await _customersRepository.Remove(id);
+            Customer? customer = await _customersRepository.Remove(customerId);
 
-            if (customer is null)
-            {
-                return NotFound("Заказчик с таким ID не найден");
-            }
+            if (customer is null) return NotFound("Заказчик с таким ID не найден");
 
             await _customersRepository.SaveChangesAsync();
 

@@ -3,7 +3,6 @@ using goodsstore_backend.Controllers;
 using goodsstore_backend.EFCore.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.RegularExpressions;
 
 
 namespace goodsstore_tests.Controllers
@@ -33,7 +32,7 @@ namespace goodsstore_tests.Controllers
 
                 foreach (Order order in orders!)
                 {
-                    if (order.Customer == null)
+                    if (order.Customer is null)
                     {
                         Assert.IsFalse(true);
                         break;

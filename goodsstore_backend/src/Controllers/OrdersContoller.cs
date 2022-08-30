@@ -29,10 +29,7 @@ namespace goodsstore_backend.Controllers
         {
             Order? order = await _ordersRepository.Get(id);
 
-            if (order is null)
-            {
-                return NotFound("Заказ с таким ID не найден");
-            }
+            if (order is null) return NotFound("Заказ с таким ID не найден");
 
             return Ok(order);
         }
@@ -42,10 +39,7 @@ namespace goodsstore_backend.Controllers
         {
             Customer? customer = await _customersRepository.Get(customerId);
 
-            if (customer is null)
-            {
-                return NotFound("Заказчик с таким ID не найден");
-            }
+            if (customer is null) return NotFound("Заказчик с таким ID не найден");
 
             var order = new Order(customerId, DateTime.Now) { 
                 ShipmentDate = shipmentDate, 
@@ -62,17 +56,15 @@ namespace goodsstore_backend.Controllers
         [HttpPut]
         public async Task<ActionResult<Order>> Put(Order order)
         {
-            if (order is null)
-            {
-                return BadRequest("Пустой заказчик");
-            };
+            if (order is null) return BadRequest("Пустой заказчик");
+
+            Customer? customer = await _customersRepository.Get(order.CustomerId);
+
+            if (customer is null) return NotFound("Заказчик с таким ID не найден");
 
             Order? newOrder = await _ordersRepository.Update(order);
 
-            if (newOrder is null)
-            {
-                return NotFound("Заказ с таким ID не найден");
-            }
+            if (newOrder is null) return NotFound("Заказ с таким ID не найден");
 
             await _ordersRepository.SaveChangesAsync();
 
@@ -80,14 +72,11 @@ namespace goodsstore_backend.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Order>> Delete(Guid id)
+        public async Task<ActionResult<Order>> Delete(Guid orderId)
         {
-            Order? order = await _ordersRepository.Remove(id);
+            Order? order = await _ordersRepository.Remove(orderId);
 
-            if (order is null)
-            {
-                return NotFound("Заказ с таким ID не найден");
-            }
+            if (order is null) return NotFound("Заказ с таким ID не найден");
 
             await _ordersRepository.SaveChangesAsync();
 

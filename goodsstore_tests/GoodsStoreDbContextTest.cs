@@ -26,6 +26,7 @@ namespace goodsstore_tests
             var customers = new List<Customer>();
             var orders = new List<Order>();
             var items = new List<Item>();
+            var ordersElements = new List<OrderElement>();
 
             customers.Add(new Customer("Max", "1337-2022") 
             { 
@@ -40,11 +41,17 @@ namespace goodsstore_tests
             items.Add(new Item(code: "93-1884-YO19", name: "Dildo", price: 2000, category: "Игрушки")
             {
                 Id = new Guid("10d11558-9161-435b-9187-8c5ff23eec72")
-            }); ;
+            });
+
+            ordersElements.Add(new OrderElement(orderId: orders[0].Id, itemId: items[0].Id, 5, itemPrice: items[0].Price)
+            {
+                Id = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+            });
 
             modelBuilder.Entity<Customer>().HasData(customers);
             modelBuilder.Entity<Order>().HasData(orders);
             modelBuilder.Entity<Item>().HasData(items);
+            modelBuilder.Entity<OrderElement>().HasData(ordersElements);
         }
     }
 }
