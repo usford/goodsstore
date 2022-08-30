@@ -6,9 +6,9 @@ namespace goodsstore_backend.Models
     [Table("ORDER_ELEMENT")]
     public class OrderElement
     {
-        public OrderElement(Guid id, Guid orderId, Guid itemId, int itemsCount, decimal itemPrice)
+        public OrderElement(Guid orderId, Guid itemId, int itemsCount, decimal itemPrice)
         {
-            Id = id;
+            Id = Guid.NewGuid();
             OrderId = orderId;
             ItemId = itemId;
             ItemsCount = itemsCount;

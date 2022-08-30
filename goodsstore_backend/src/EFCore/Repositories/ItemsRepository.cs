@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
 using goodsstore_backend.Models;
-using goodsstore_backend.EFCore;
 using goodsstore_backend.EFCore.Repositories.Interfaces;
 
 namespace goodsstore_backend.EFCore.Repositories
