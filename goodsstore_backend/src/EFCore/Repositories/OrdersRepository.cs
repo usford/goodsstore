@@ -6,27 +6,30 @@ namespace goodsstore_backend.EFCore.Repositories
 {
     public class OrdersRepository : IOrdersRepository
     {
-        private readonly IGoodsStoreDbContext _dbContext;
-
         public OrdersRepository(IGoodsStoreDbContext dbContext)
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext)); ;
         }
 
+        private readonly IGoodsStoreDbContext _dbContext;
+       
         public async Task<IEnumerable<Order>> Get()
         {
             return await _dbContext.Orders.Include(o => o.Customer).ToListAsync();
         }
+
         public async Task<Order?> Get(Guid orderId)
         {
             Order? order = await _dbContext.Orders.Include(o => o.Customer).SingleOrDefaultAsync(x => x.Id == orderId);
 
             return order;
         }
+
         public void Add(Order order)
         {
             _dbContext.Orders.Add(order);
         }
+
         public async Task<Order?> Update(Order order)
         {
             bool check = await _dbContext.Orders.AnyAsync(x => x.Id == order.Id);
@@ -39,6 +42,7 @@ namespace goodsstore_backend.EFCore.Repositories
 
             return null;
         }
+
         public async Task<Order?> Remove(Guid orderId)
         {
             Order? order = await _dbContext.Orders.SingleOrDefaultAsync(x => x.Id == orderId);
@@ -50,6 +54,7 @@ namespace goodsstore_backend.EFCore.Repositories
 
             return order;
         }
+
         public async Task<int> SaveChangesAsync(CancellationToken token = default)
         {
             if (_dbContext is DbContext dbContext)

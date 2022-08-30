@@ -95,7 +95,7 @@ namespace goodsstore_tests.Controllers
 
             [TestMethod]
             [DataRow("7223681c-b1a1-4187-a3f5-b24211e2634e")]
-            public async Task TestPutCustomer(string id)
+            public async Task TestPutOrder(string id)
             {
                 var order = _goodsStoreDbContext.Orders.SingleOrDefault(x => x.Id == new Guid(id));
                 Assert.IsNotNull(order);
@@ -128,7 +128,7 @@ namespace goodsstore_tests.Controllers
 
             [TestMethod]
             [DataRow("7223681c-b1a1-4187-a3f5-b24211e2634e")]
-            public async Task TestDeleteCustomer(string id)
+            public async Task TestDeleteOrder(string id)
             {
                 var order = _goodsStoreDbContext.Orders.SingleOrDefault(x => x.Id == new Guid(id));
                 Assert.IsNotNull(order);

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace goodsstore_backend.Models
@@ -6,10 +7,13 @@ namespace goodsstore_backend.Models
     [Table("ITEMS")]
     public class Item
     {
-        public Item(Guid id, string code)
+        public Item(string code, string name, decimal price, string category)
         {
-            Id = id;
+            Id = Guid.NewGuid();
             Code = code;
+            Name = name;
+            Price = price;
+            Category = category;
         }
 
         [Column("ID")]
@@ -18,16 +22,18 @@ namespace goodsstore_backend.Models
 
         [Column("CODE")]
         [Required]
-        [RegularExpression(@"^\d{2}-\d{4}-[A-Z]{2}\d{2}$", ErrorMessage = "Неверный формат кода")]
         public string Code { get; set; }
 
         [Column("NAME")]
-        public string? Name { get; set; }
+        [Required]
+        public string Name { get; set; }
 
         [Column("PRICE", TypeName = "decimal(18, 4)")]
-        public decimal? Price { get; set; }
+        [Required]
+        public decimal Price { get; set; }
 
         [Column("CATEGORY")]
-        public string? Category { get; set; }
+        [Required]
+        public string Category { get; set; }
     }
 }

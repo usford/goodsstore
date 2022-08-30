@@ -9,27 +9,30 @@ namespace goodsstore_backend.EFCore.Repositories
 {
     public class CustomersRepository : ICustomersRepository
     {
-        private readonly IGoodsStoreDbContext _dbContext;
-
         public CustomersRepository(IGoodsStoreDbContext dbContext)
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
+        private readonly IGoodsStoreDbContext _dbContext;
+
         public async Task<IEnumerable<Customer>> Get()
         {
             return await _dbContext.Customers.ToListAsync();
         }
+
         public async Task<Customer?> Get(Guid customerId)
         {
             Customer? customer = await _dbContext.Customers.SingleOrDefaultAsync(x => x.Id == customerId);
 
             return customer;
         }
+
         public void Add(Customer customer)
         { 
             _dbContext.Customers.Add(customer);
         }
+
         public async Task<Customer?> Update(Customer customer)
         {
             bool check = await _dbContext.Customers.AnyAsync(x => x.Id == customer.Id);
@@ -42,6 +45,7 @@ namespace goodsstore_backend.EFCore.Repositories
 
             return null;
         }
+
         public async Task<Customer?> Remove(Guid customerId)
         {
             Customer? customer = await _dbContext.Customers.SingleOrDefaultAsync(x => x.Id == customerId);
@@ -52,7 +56,8 @@ namespace goodsstore_backend.EFCore.Repositories
             }
 
             return customer;
-        }     
+        }   
+        
         public async Task<int> SaveChangesAsync(CancellationToken token = default)
         {
             if (_dbContext is DbContext dbContext)

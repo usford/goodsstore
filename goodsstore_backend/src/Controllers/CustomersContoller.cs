@@ -9,12 +9,13 @@ namespace goodsstore_backend.Controllers
     [Produces("application/json")]
     public class CustomersContoller : ControllerBase
     {
-        private readonly ICustomersRepository _customersRepository;
         public CustomersContoller(ICustomersRepository customersRepository)
         {
             _customersRepository = customersRepository;
         }
-        
+
+        private readonly ICustomersRepository _customersRepository;
+               
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> Get()
         {
