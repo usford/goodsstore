@@ -24,6 +24,7 @@ namespace goodsstore_tests.Controllers
             public async Task TestGetAllCustomers()
             {
                 ActionResult<IEnumerable<Customer>> actionResult = await _customersController.Get();
+
                 var objectResult = actionResult.Result as OkObjectResult;
                 var customers = objectResult?.Value as IEnumerable<Customer>;
 
@@ -61,14 +62,16 @@ namespace goodsstore_tests.Controllers
 
                 var okObjectResult = actionResult.Result as OkObjectResult;
                 var customer = okObjectResult?.Value as Customer;
+
                 var regex = new Regex(@"^\d{4}-\d{4}$");
 
-                Assert.IsNotNull(customer?.Id);
-                Assert.AreEqual(name, customer?.Name);
-                Assert.IsNotNull(customer?.Code);
-                Assert.AreEqual(true, regex.IsMatch(customer!.Code));
-                Assert.AreEqual(address, customer?.Address);
-                Assert.AreEqual(discount, customer?.Discount);
+                Assert.IsNotNull(customer);
+                Assert.IsNotNull(customer.Id);
+                Assert.AreEqual(name, customer.Name);
+                Assert.IsNotNull(customer.Code);
+                Assert.AreEqual(true, regex.IsMatch(customer.Code));
+                Assert.AreEqual(address, customer.Address);
+                Assert.AreEqual(discount, customer.Discount);
             }
         }
 
@@ -91,6 +94,7 @@ namespace goodsstore_tests.Controllers
                 customer.Name = "Vlad";
 
                 ActionResult<Customer> actionResult = await _customersController.Put(customer);
+
                 var okObjectResult = actionResult.Result as OkObjectResult;
                 var newCustomer = okObjectResult?.Value as Customer;
 
@@ -121,11 +125,9 @@ namespace goodsstore_tests.Controllers
 
                 ActionResult<Customer> actionResult = await _customersController.Delete(customer.Id);
                 var okObjectResult = actionResult.Result as OkObjectResult;
-
                 Assert.IsNotNull(okObjectResult);
 
                 var deleteCustomer = _goodsStoreDbContext.Customers.SingleOrDefault(x => x.Id == customer.Id);
-
                 Assert.IsNull(deleteCustomer);
             }
         }       
