@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 using goodsstore_backend.Models;
 using goodsstore_backend.EFCore.Repositories.Interfaces;
 
@@ -83,6 +84,13 @@ namespace goodsstore_backend.Controllers
             if (newItem is null)
             {
                 return NotFound("Товар с таким ID не найден");
+            }
+
+            var regex = new Regex(@"^\d{2}-\d{4}-[A-Z]{2}\d{2}$");
+
+            if (!regex.IsMatch(newItem.Code))
+            {
+                return BadRequest("Неверный формат кода");
             }
 
             await _itemsRepository.SaveChangesAsync();
