@@ -24,14 +24,21 @@ namespace goodsstore_tests
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var customers = new List<Customer>();
+            var orders = new List<Order>();
 
             customers.Add(new Customer("Max", "1337-2022") 
             { 
                 Id = new Guid("ab87cfa0-abaf-4420-acfd-ecc9fb058427") 
             });
 
-            modelBuilder.Entity<Customer>()
-                .HasData(customers);
+            orders.Add(new Order(new Guid("ab87cfa0-abaf-4420-acfd-ecc9fb058427"), DateTime.Now)
+            {
+                Id = new Guid("7223681c-b1a1-4187-a3f5-b24211e2634e")
+            });
+
+            modelBuilder.Entity<Customer>().HasData(customers);
+
+            modelBuilder.Entity<Order>().HasData(orders);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace goodsstore_backend.EFCore.Repositories
         }
         public async Task<Order?> Get(Guid orderId)
         {
-            Order? order = await _dbContext.Orders.SingleOrDefaultAsync(x => x.Id == orderId);
+            Order? order = await _dbContext.Orders.Include(o => o.Customer).SingleOrDefaultAsync(x => x.Id == orderId);
 
             return order;
         }

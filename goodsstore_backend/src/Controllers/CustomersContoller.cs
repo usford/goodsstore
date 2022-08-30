@@ -28,7 +28,7 @@ namespace goodsstore_backend.Controllers
 
             if (customer is null)
             {
-                return NotFound();
+                return NotFound("Заказчик с таким ID не найден");
             }
 
             return Ok(customer);
@@ -39,7 +39,7 @@ namespace goodsstore_backend.Controllers
         {
             if (string.IsNullOrEmpty(name))
             {
-                return BadRequest();
+                return BadRequest("Отсутствует имя у заказчика");
             }
 
             string leftSideCode = new Random().Next(0, 10000).ToString("0000");
@@ -59,14 +59,14 @@ namespace goodsstore_backend.Controllers
         {
             if (customer is null)
             {
-                return BadRequest();
+                return BadRequest("Заказчик пустой");
             };
 
             Customer? newCustomer = await _customersRepository.Update(customer);
 
             if (newCustomer is null)
             {
-                return NotFound();
+                return NotFound("Заказчик с таким ID не найден");
             }
 
             await _customersRepository.SaveChangesAsync();
@@ -81,7 +81,7 @@ namespace goodsstore_backend.Controllers
 
             if (customer is null)
             {
-                return NotFound();
+                return NotFound("Заказчик с таким ID не найден");
             }
 
             await _customersRepository.SaveChangesAsync();

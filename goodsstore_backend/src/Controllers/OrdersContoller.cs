@@ -2,7 +2,7 @@
 using goodsstore_backend.Models;
 using goodsstore_backend.EFCore.Repositories.Interfaces;
 
-namespace goodsstore_backend.src.Controllers
+namespace goodsstore_backend.Controllers
 {
     [ApiController]
     [Route("orders")]
@@ -11,16 +11,16 @@ namespace goodsstore_backend.src.Controllers
     {
         private readonly IOrdersRepository _ordersRepository;
         private readonly ICustomersRepository _customersRepository;
-        public OrdersContoller(IOrdersRepository ordersRepository, ICustomersRepository customersRepostiry)
+        public OrdersContoller(IOrdersRepository ordersRepository, ICustomersRepository customersRepository)
         {
             _ordersRepository = ordersRepository;
-            _customersRepository = customersRepostiry;
+            _customersRepository = customersRepository;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Order>>> Get()
         {
-            return new ObjectResult(await _ordersRepository.Get());
+            return Ok(await _ordersRepository.Get());
         }
 
         [HttpGet("{id}")]
@@ -30,10 +30,10 @@ namespace goodsstore_backend.src.Controllers
 
             if (order is null)
             {
-                return NotFound();
+                return NotFound("Заказ с таким ID не найден");
             }
 
-            return new ObjectResult(order);
+            return Ok(order);
         }
 
         [HttpPost]
@@ -43,7 +43,7 @@ namespace goodsstore_backend.src.Controllers
 
             if (customer is null)
             {
-                return BadRequest();
+                return NotFound("Заказчик с таким ID не найден");
             }
 
             var order = new Order(customerId, DateTime.Now) { 
@@ -63,14 +63,14 @@ namespace goodsstore_backend.src.Controllers
         {
             if (order is null)
             {
-                return BadRequest();
+                return BadRequest("Пустой заказчик");
             };
 
             Order? newOrder = await _ordersRepository.Update(order);
 
             if (newOrder is null)
             {
-                return NotFound();
+                return NotFound("Заказ с таким ID не найден");
             }
 
             await _ordersRepository.SaveChangesAsync();
@@ -85,7 +85,7 @@ namespace goodsstore_backend.src.Controllers
 
             if (order is null)
             {
-                return NotFound();
+                return NotFound("Заказ с таким ID не найден");
             }
 
             await _ordersRepository.SaveChangesAsync();

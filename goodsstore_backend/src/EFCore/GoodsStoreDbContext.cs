@@ -14,7 +14,7 @@ namespace goodsstore_backend.EFCore
         public GoodsStoreDbContext(DbContextOptions<GoodsStoreDbContext> options) : base(options) 
         {
             //Database.EnsureDeleted();
-            //Database.EnsureCreated();
+            Database.EnsureCreated();
         }
     }
 }
