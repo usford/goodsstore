@@ -18,7 +18,7 @@ namespace goodsstore_tests.Controllers
             private static GoodsStoreDbContextTest _goodsStoreDbContext = new GoodsStoreDbContextTest(_options);
             private static OrdersRepository _ordersRepository = new OrdersRepository(_goodsStoreDbContext);
             private static CustomersRepository _customersRepository = new CustomersRepository(_goodsStoreDbContext);
-            private static OrdersContoller _ordersController = new OrdersContoller(_ordersRepository, _customersRepository);
+            private static OrdersController _ordersController = new OrdersController(_ordersRepository, _customersRepository);
 
             [TestMethod]
             public async Task TestGetAllOrders()
@@ -60,7 +60,7 @@ namespace goodsstore_tests.Controllers
             private static GoodsStoreDbContextTest _goodsStoreDbContext = new GoodsStoreDbContextTest(_options);
             private static OrdersRepository _ordersRepository = new OrdersRepository(_goodsStoreDbContext);
             private static CustomersRepository _customersRepository = new CustomersRepository(_goodsStoreDbContext);
-            private static OrdersContoller _ordersController = new OrdersContoller(_ordersRepository, _customersRepository);
+            private static OrdersController _ordersController = new OrdersController(_ordersRepository, _customersRepository);
 
             [TestMethod]
             [DataRow("ab87cfa0-abaf-4420-acfd-ecc9fb058427")]
@@ -90,7 +90,7 @@ namespace goodsstore_tests.Controllers
             private static GoodsStoreDbContextTest _goodsStoreDbContext = new GoodsStoreDbContextTest(_options);
             private static OrdersRepository _ordersRepository = new OrdersRepository(_goodsStoreDbContext);
             private static CustomersRepository _customersRepository = new CustomersRepository(_goodsStoreDbContext);
-            private static OrdersContoller _ordersController = new OrdersContoller(_ordersRepository, _customersRepository);
+            private static OrdersController _ordersController = new OrdersController(_ordersRepository, _customersRepository);
 
             [TestMethod]
             [DataRow("7223681c-b1a1-4187-a3f5-b24211e2634e")]
@@ -123,7 +123,7 @@ namespace goodsstore_tests.Controllers
             private static GoodsStoreDbContextTest _goodsStoreDbContext = new GoodsStoreDbContextTest(_options);
             private static OrdersRepository _ordersRepository = new OrdersRepository(_goodsStoreDbContext);
             private static CustomersRepository _customersRepository = new CustomersRepository(_goodsStoreDbContext);
-            private static OrdersContoller _ordersController = new OrdersContoller(_ordersRepository, _customersRepository);
+            private static OrdersController _ordersController = new OrdersController(_ordersRepository, _customersRepository);
 
             [TestMethod]
             [DataRow("7223681c-b1a1-4187-a3f5-b24211e2634e")]

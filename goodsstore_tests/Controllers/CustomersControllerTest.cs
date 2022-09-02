@@ -18,7 +18,7 @@ namespace goodsstore_tests.Controllers
 
             private static GoodsStoreDbContextTest _goodsStoreDbContext = new GoodsStoreDbContextTest(_options);
             private static CustomersRepository _customersRepository = new CustomersRepository(_goodsStoreDbContext);
-            private static CustomersContoller _customersController = new CustomersContoller(_customersRepository);
+            private static CustomersController _customersController = new CustomersController(_customersRepository);
 
             [TestMethod]
             public async Task TestGetAllCustomers()
@@ -50,7 +50,7 @@ namespace goodsstore_tests.Controllers
 
             private static GoodsStoreDbContextTest _goodsStoreDbContext = new GoodsStoreDbContextTest(_options);
             private static CustomersRepository _customersRepository = new CustomersRepository(_goodsStoreDbContext);
-            private static CustomersContoller _customersController = new CustomersContoller(_customersRepository);
+            private static CustomersController _customersController = new CustomersController(_customersRepository);
 
             [TestMethod]
             [DataRow("Max King")]
@@ -82,7 +82,7 @@ namespace goodsstore_tests.Controllers
 
             private static GoodsStoreDbContextTest _goodsStoreDbContext = new GoodsStoreDbContextTest(_options);
             private static CustomersRepository _customersRepository = new CustomersRepository(_goodsStoreDbContext);
-            private static CustomersContoller _customersController = new CustomersContoller(_customersRepository);
+            private static CustomersController _customersController = new CustomersController(_customersRepository);
 
             [TestMethod]
             [DataRow("ab87cfa0-abaf-4420-acfd-ecc9fb058427")]
@@ -114,7 +114,7 @@ namespace goodsstore_tests.Controllers
 
             private static GoodsStoreDbContextTest _goodsStoreDbContext = new GoodsStoreDbContextTest(_options);
             private static CustomersRepository _customersRepository = new CustomersRepository(_goodsStoreDbContext);
-            private static CustomersContoller _customersController = new CustomersContoller(_customersRepository);
+            private static CustomersController _customersController = new CustomersController(_customersRepository);
 
             [TestMethod]
             [DataRow("ab87cfa0-abaf-4420-acfd-ecc9fb058427")]

@@ -7,9 +7,9 @@ namespace goodsstore_backend.Controllers
     [ApiController]
     [Route("orders")]
     [Produces("application/json")]
-    public class OrdersContoller : ControllerBase
+    public class OrdersController : ControllerBase
     {
-        public OrdersContoller(IOrdersRepository ordersRepository, ICustomersRepository customersRepository)
+        public OrdersController(IOrdersRepository ordersRepository, ICustomersRepository customersRepository)
         {
             _ordersRepository = ordersRepository;
             _customersRepository = customersRepository;

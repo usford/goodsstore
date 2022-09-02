@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "goodsstore_backend", "goods
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "goodsstore_frontend", "goodsstore_frontend\goodsstore_frontend.esproj", "{36A44DF0-1393-4D3B-9889-E11595BC7CD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "goodsstore_tests", "goodsstore_tests\goodsstore_tests.csproj", "{79499AEB-BB23-4937-BD77-DDD5AA266BCD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "goodsstore_tests", "goodsstore_tests\goodsstore_tests.csproj", "{79499AEB-BB23-4937-BD77-DDD5AA266BCD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

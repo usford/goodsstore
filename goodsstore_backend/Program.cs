@@ -21,8 +21,10 @@ builder.Services.AddTransient<IItemsRepository, ItemsRepository>();
 builder.Services.AddTransient<IOrdersElementsRepository, OrdersElementsRepository>();
 
 builder.Services.AddControllers();
+builder.Services.AddControllersWithViews();
 //builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 
@@ -36,8 +38,12 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.MapControllers();
 
-//app.UseAuthorization();
+app.Map("/", (HttpContext context) =>
+{
+    context.Response.Redirect("login");
+});
 
+//app.UseAuthorization();
 
 
 app.Run();
