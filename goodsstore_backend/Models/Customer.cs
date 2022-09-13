@@ -18,7 +18,7 @@ namespace goodsstore_backend.Models
         public Guid Id { get; set; }
 
         [Column("NAME")]
-        [Required]
+        [Required(ErrorMessage = "Не указано имя")]
         public string Name { get; set; } = "noname";
 
         [Column("CODE")]
@@ -29,8 +29,8 @@ namespace goodsstore_backend.Models
         public string? Address { get; set; } = null;
 
         [Column("DISCOUNT")]
-        [DefaultValue(0)]
-        public byte Discount { get; set; } = 0;
+        [Range(0, 100, ErrorMessage = "Размер скидки от 0% до 100%")]
+        public byte Discount { get; set; }
 
         private void GenerateCode()
         {

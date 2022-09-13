@@ -2,18 +2,25 @@
 
 <h2> Создание заказчика </h2>
 <form asp-action="edit" asp-route-id="@Model.Id" asp-route-code="@Model.Code">
-    <p>
-        <label asp-for="Name">Имя</label> <br />
-        <input type="text" asp-for="Name" /> <br />
-
-        <label asp-for="Address">Адрес</label> <br />
-        <input type="text" asp-for="Address" /> <br />
-
-        <label asp-for="Discount">Процент скидки</label> <br />
-        <input type="number" asp-for="Discount"/> <br />
-    </p>
-    <p>
-        <input type="submit" value="Сохранить" />
-    </p>
+     <div>
+        <p>
+            <label asp-for="Name">Имя</label> <br />
+            <input type="text" asp-for="Name" /> 
+            <span asp-validation-for="Name" /> <br />
+        </p>
+        <p>
+            <label asp-for="Address">Адрес</label> <br />
+            <input type="text" asp-for="Address" />
+            <span asp-validation-for="Address" /> <br />
+        </p>
+        <p>
+            <label asp-for="Discount">Процент скидки</label> <br />
+            <input type="number" asp-for="Discount"/>
+            <span asp-validation-for="Discount" /> <br />
+        </p>
+        <p>
+            <input type="submit" value="Сохранить" />
+        </p>
+    </div>
 </form>
 

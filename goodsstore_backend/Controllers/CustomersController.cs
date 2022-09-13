@@ -18,7 +18,6 @@ namespace goodsstore_backend.Controllers
         public async Task<ActionResult<IEnumerable<Customer>>> Index()
         {
             return View(await _customersRepository.Get());
-            //return View("Post");
         }
     
         public IActionResult Create()
@@ -29,8 +28,6 @@ namespace goodsstore_backend.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromForm]Customer customer)
         {
-            if (string.IsNullOrEmpty(customer.Name)) return BadRequest("Отсутствует имя у заказчика");
-
             _customersRepository.Add(customer);
 
             await _customersRepository.SaveChangesAsync();
@@ -48,17 +45,9 @@ namespace goodsstore_backend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Customer>> Edit(Customer customer)
+        public async Task<IActionResult> Edit(Customer customer)
         {
-            if (customer is null) return BadRequest("Заказчик пустой");
-
-            Customer? newCustomer = await _customersRepository.Update(customer);
-
-            if (newCustomer is null) return NotFound("Заказчик с таким ID не найден");
-
-            //var regex = new Regex(@"^\d{4}-\d{4}$");
-
-            //if (!regex.IsMatch(newCustomer.Code)) return BadRequest("Неверный формат кода");
+            await _customersRepository.Update(customer);
 
             await _customersRepository.SaveChangesAsync();
 
@@ -68,9 +57,7 @@ namespace goodsstore_backend.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(Guid id)
         {
-            Customer? customer = await _customersRepository.Remove(id);
-
-            if (customer is null) return NotFound("Заказчик с таким ID не найден");
+            await _customersRepository.Remove(id);
 
             await _customersRepository.SaveChangesAsync();
 
