@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Магазин вещей | @ViewBag.Title</title>
+</head>
+<body>
+    <header>
+        <a asp-controller="customers" asp-action="index">Заказчики</a>
+    </header>
+    <div>
+        @RenderBody()
+    </div>
+    <footer>
+        <p style="text-align:center"> Created by Max 2022г.</p>
+    </footer>
+</body>
+</html>

@@ -5,10 +5,7 @@ using goodsstore_backend.EFCore.Repositories.Interfaces;
 
 namespace goodsstore_backend.Controllers
 {
-    [ApiController]
-    [Route("customers")]
-    [Produces("application/json")]
-    public class CustomersController : ControllerBase
+    public class CustomersController : Controller
     {
         public CustomersController(ICustomersRepository customersRepository)
         {
@@ -17,10 +14,11 @@ namespace goodsstore_backend.Controllers
 
         private readonly ICustomersRepository _customersRepository;
                
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> Get()
+        [HttpGet]      
+        public async Task<ActionResult<IEnumerable<Customer>>> Index()
         {
-            return Ok(await _customersRepository.Get());
+            return View(await _customersRepository.Get());
+            //return View("Post");
         }
 
         [HttpGet("{id}")]
@@ -33,22 +31,22 @@ namespace goodsstore_backend.Controllers
             return Ok(customer);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Customer>> Post(string name, string? address = null, byte discount = 0)
+        
+        public IActionResult Create()
         {
-            if (string.IsNullOrEmpty(name)) return BadRequest("Отсутствует имя у заказчика");
+            return View();
+        }
 
-            //Формат XXXX-ГГГГ, где X - число, а ГГГГ - год
-            string leftSideCode = new Random().Next(0, 10000).ToString("0000");
-            string rightSideCode = DateTime.Now.Year.ToString();
-            var code = $"{leftSideCode}-{rightSideCode}";
+        [HttpPost]
+        public async Task<IActionResult> Create([FromForm]Customer customer)
+        {
+            if (string.IsNullOrEmpty(customer.Name)) return BadRequest("Отсутствует имя у заказчика");
 
-            var customer = new Customer(name, code) { Address = address, Discount = discount };
             _customersRepository.Add(customer);
 
             await _customersRepository.SaveChangesAsync();
 
-            return Ok(customer);
+            return RedirectToAction("Index");
         }
 
         [HttpPut]
@@ -69,16 +67,16 @@ namespace goodsstore_backend.Controllers
             return Ok(newCustomer);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Customer>> Delete(Guid customerId)
+        [HttpPost]
+        public async Task<IActionResult> Delete(Guid id)
         {
-            Customer? customer = await _customersRepository.Remove(customerId);
+            Customer? customer = await _customersRepository.Remove(id);
 
             if (customer is null) return NotFound("Заказчик с таким ID не найден");
 
             await _customersRepository.SaveChangesAsync();
 
-            return Ok(customer);
+            return RedirectToAction("Index");
         }
     }
 }

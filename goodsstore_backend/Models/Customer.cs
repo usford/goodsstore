@@ -7,11 +7,10 @@ namespace goodsstore_backend.Models
     [Table("CUSTOMERS")]
     public class Customer
     {
-        public Customer(string name, string code)
+        public Customer()
         {
             Id = Guid.NewGuid();
-            Name = name;
-            Code = code;
+            GenerateCode();
         }
 
         [Column("ID")]
@@ -20,18 +19,25 @@ namespace goodsstore_backend.Models
 
         [Column("NAME")]
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = "noname";
 
         [Column("CODE")]
-        [Required]
-        public string Code { get; set; }
+        public string Code { get; set; } = "empty";
 
         [Column("ADDRESS")]
         [DefaultValue(null)]
-        public string? Address { get; set; }
+        public string? Address { get; set; } = null;
 
         [Column("DISCOUNT")]
         [DefaultValue(0)]
-        public byte? Discount { get; set; }
+        public byte Discount { get; set; } = 0;
+
+        private void GenerateCode()
+        {
+            //Формат XXXX-ГГГГ, где X - число, а ГГГГ - год
+            string leftSideCode = new Random().Next(0, 10000).ToString("0000");
+            string rightSideCode = DateTime.Now.Year.ToString();
+            Code = $"{leftSideCode}-{rightSideCode}";
+        }
     }
 }

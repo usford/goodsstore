@@ -1,0 +1,26 @@
+﻿@model IEnumerable<goodsstore_backend.Models.Customer>
+
+<h2> Список заказчиков </h2>
+<p><a asp-action="create"> Добавить заказчика </a></p>
+<table class="table">
+    <tr>
+        <th>Имя</th>
+        <th>Код</th>
+        <th>Адрес</th>
+        <th>Скидка</th>
+    </tr>
+    @foreach (var customer in Model)
+    {
+        <tr>
+            <td>@customer.Name</td>
+            <td>@customer.Code</td>
+            <td>@customer.Address</td>
+            <td>@customer.Discount%</td>
+            <td>
+                <form asp-action="delete" method="post" asp-route-id="@customer.Id">
+                    <input type="submit" value="удалить" />
+                </form>
+            </td>
+        </tr>
+    }
+</table>

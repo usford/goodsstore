@@ -36,12 +36,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.MapControllers();
+app.UseRouting();
 
-app.Map("/", (HttpContext context) =>
-{
-    context.Response.Redirect("login");
-});
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Customers}/{action=Index}/{id?}");
 
 //app.UseAuthorization();
 
