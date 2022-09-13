@@ -20,18 +20,7 @@ namespace goodsstore_backend.Controllers
             return View(await _customersRepository.Get());
             //return View("Post");
         }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> Get(Guid id)
-        {
-            Customer? customer = await _customersRepository.Get(id);
-
-            if (customer is null) return NotFound("Заказчик с таким ID не найден");
-
-            return Ok(customer);
-        }
-
-        
+    
         public IActionResult Create()
         {
             return View();
@@ -49,8 +38,17 @@ namespace goodsstore_backend.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPut]
-        public async Task<ActionResult<Customer>> Put(Customer customer)
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            Customer? customer = await _customersRepository.Get(id);
+
+            if (customer != null) return View(customer);
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Customer>> Edit(Customer customer)
         {
             if (customer is null) return BadRequest("Заказчик пустой");
 
@@ -58,13 +56,13 @@ namespace goodsstore_backend.Controllers
 
             if (newCustomer is null) return NotFound("Заказчик с таким ID не найден");
 
-            var regex = new Regex(@"^\d{4}-\d{4}$");
+            //var regex = new Regex(@"^\d{4}-\d{4}$");
 
-            if (!regex.IsMatch(newCustomer.Code)) return BadRequest("Неверный формат кода");
+            //if (!regex.IsMatch(newCustomer.Code)) return BadRequest("Неверный формат кода");
 
             await _customersRepository.SaveChangesAsync();
 
-            return Ok(newCustomer);
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
