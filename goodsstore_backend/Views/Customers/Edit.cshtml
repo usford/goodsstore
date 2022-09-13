@@ -4,17 +4,17 @@
 <form asp-action="edit" asp-route-id="@Model.Id" asp-route-code="@Model.Code">
      <div>
         <p>
-            <label asp-for="Name">Имя</label> <br />
+            <label asp-for="Name"></label> <br />
             <input type="text" asp-for="Name" /> 
             <span asp-validation-for="Name" /> <br />
         </p>
         <p>
-            <label asp-for="Address">Адрес</label> <br />
+            <label asp-for="Address"></label> <br />
             <input type="text" asp-for="Address" />
             <span asp-validation-for="Address" /> <br />
         </p>
         <p>
-            <label asp-for="Discount">Процент скидки</label> <br />
+            <label asp-for="Discount"></label> <br />
             <input type="number" asp-for="Discount"/>
             <span asp-validation-for="Discount" /> <br />
         </p>
