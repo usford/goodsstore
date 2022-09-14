@@ -17,7 +17,13 @@
             <td>@order.Customer.Name</td>
             <td>@order.Customer.Code</td>
             <td>@order.OrderDate</td>
-            <td>@order.ShipmentDate</td>
+            @if (order.ShipmentDate == null)
+            {
+                <td>Неизвестно</td>
+            }else
+            {
+                 <td>@order.ShipmentDate</td>
+            }
             <td>@order.OrderNumber</td>
             <td>@order.Status</td>
             <td>

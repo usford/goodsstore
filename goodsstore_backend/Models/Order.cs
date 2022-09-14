@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using goodsstore_backend.Models.Attributes;
+using goodsstore_backend.Enums;
 
 namespace goodsstore_backend.Models
 {
@@ -27,13 +27,13 @@ namespace goodsstore_backend.Models
         [DisplayName("Дата создания заказа")]
         [DataType(DataType.Date, ErrorMessage = "Некорректная дата")]
         [Required(ErrorMessage = "Не выбрана дата создания заказа")]
-        public DateTime OrderDate { get; set; }
+        public DateTime OrderDate { get; set; } = DateTime.Now;
 
         [Column("SHIPMENT_DATE")]
         [DisplayName("Дата доставки")]
         [DataType(DataType.Date, ErrorMessage = "Некорректная дата")]
         [DefaultValue(null)]
-        public DateTime? ShipmentDate { get; set; } = null;
+        public DateTime? ShipmentDate { get; set; }
 
         [Column("ORDER_NUMBER")]
         [DefaultValue(1)]
@@ -41,7 +41,7 @@ namespace goodsstore_backend.Models
 
         [Column("STATUS")]
         [DisplayName("Статус")]
-        [DefaultValue("Новый")]
-        public string Status { get; set; } = "Новый";
+        [DefaultValue(OrderStatus.New)]
+        public OrderStatus Status { get; set; } = OrderStatus.New;
     }
 }
