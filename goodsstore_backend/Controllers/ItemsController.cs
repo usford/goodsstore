@@ -5,10 +5,7 @@ using goodsstore_backend.EFCore.Repositories.Interfaces;
 
 namespace goodsstore_backend.Controllers
 {
-    [ApiController]
-    [Route("items")]
-    [Produces("application/json")]
-    public class ItemsController : ControllerBase
+    public class ItemsController : Controller
     {
         public ItemsController(IItemsRepository itemsRepository)
         {
@@ -18,99 +15,53 @@ namespace goodsstore_backend.Controllers
         private readonly IItemsRepository _itemsRepository;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Item>>> Get()
+        public async Task<ActionResult<IEnumerable<Item>>> Index()
         {
-            return Ok(await _itemsRepository.Get());
+            return View(await _itemsRepository.Get());
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Item>> Get(Guid id)
+        public IActionResult Create()
         {
-            Item? item = await _itemsRepository.Get(id);
-
-            if (item is null)
-            {
-                return NotFound("Товар с таким ID не найден");
-            }
-
-            return Ok(item);
+            return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult<Item>> Post(string name, decimal price, string category)
+        public async Task<IActionResult> Create([FromForm] Item item)
         {
-            if (string.IsNullOrEmpty(name))
-            {
-                return BadRequest("Отсутствует наименование товара");
-            }
-
-            if (price <= 0)
-            {
-                return BadRequest("Неверная цена");
-            }
-
-            if (string.IsNullOrEmpty(name))
-            {
-                return BadRequest("Отсутствует категория");
-            }
-
-            var randomNumber = () => new Random().Next(1, 10);
-
-            var randomUnicodeChar = () => (char)new Random().Next(65, 90);
-
-            //формат кода XX-XXXX-YYXX, где X - число, а Y - заглавная буква алфавита
-            string code = $"{randomNumber()}{randomNumber()}" +
-                $"-{randomNumber()}{randomNumber()}{randomNumber()}{randomNumber()}" +
-                $"-{randomUnicodeChar()}{randomUnicodeChar()}{randomNumber()}{randomNumber()}";
-
-            var item = new Item(code, name, price, category);
             _itemsRepository.Add(item);
 
             await _itemsRepository.SaveChangesAsync();
 
-            return Ok(item);
+            return RedirectToAction("Index");
         }
 
-        [HttpPut]
-        public async Task<ActionResult<Item>> Put(Item item)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            if (item is null)
-            {
-                return BadRequest("Товар пустой");
-            }
+            Item? item = await _itemsRepository.Get(id);
 
-            Item? newItem = await _itemsRepository.Update(item);
+            if (item != null) return View(item);
 
-            if (newItem is null)
-            {
-                return NotFound("Товар с таким ID не найден");
-            }
+            return NotFound();
+        }
 
-            var regex = new Regex(@"^\d{2}-\d{4}-[A-Z]{2}\d{2}$");
-
-            if (!regex.IsMatch(newItem.Code))
-            {
-                return BadRequest("Неверный формат кода");
-            }
+        [HttpPost]
+        public async Task<IActionResult> Edit(Item item)
+        {
+            await _itemsRepository.Update(item);
 
             await _itemsRepository.SaveChangesAsync();
 
-            return Ok(newItem);
+            return RedirectToAction("Index");
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Item>> Delete(Guid id)
+        [HttpPost]
+        public async Task<IActionResult> Delete(Guid id)
         {
-            Item? item = await _itemsRepository.Remove(id);
-
-            if (item is null)
-            {
-                return NotFound("Товар с таким ID не найден");
-            }
+            await _itemsRepository.Remove(id);
 
             await _itemsRepository.SaveChangesAsync();
 
-            return Ok(item);
+            return RedirectToAction("Index");
         }
     }
 }

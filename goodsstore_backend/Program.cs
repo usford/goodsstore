@@ -3,8 +3,11 @@ using goodsstore_backend.EFCore;
 using goodsstore_backend.EFCore.Repositories;
 using goodsstore_backend.EFCore.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
+CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+CultureInfo.DefaultThreadCurrentCulture = CultureInfo.CurrentCulture;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;

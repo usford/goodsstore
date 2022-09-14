@@ -1,0 +1,25 @@
+﻿@model goodsstore_backend.Models.Item
+
+<h2>Изменение товара</h2>
+<form asp-action="edit" asp-route-id="@Model.Id" asp-route-code="@Model.Code">
+    <div>
+        <p>
+            <label asp-for="Name"></label> <br />
+            <input type="text" asp-for="Name" />
+            <span asp-validation-for="Name" /> <br />
+        </p>
+        <p>
+            <label asp-for="Price"></label> <br />
+            <input type="number" asp-for="Price" />
+            <span asp-validation-for="Price" /> <br />
+        </p>
+        <p>
+            <label asp-for="Category"></label> <br />
+            <input type="text" asp-for="Category" />
+            <span asp-validation-for="Category" /> <br />
+        </p>
+        <p>
+            <input type="submit" value="Изменить" />
+        </p>
+    </div>
+</form>

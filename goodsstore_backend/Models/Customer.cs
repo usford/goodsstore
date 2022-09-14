@@ -32,6 +32,7 @@ namespace goodsstore_backend.Models
 
         [Column("DISCOUNT")]
         [DisplayName("Скидка")]
+        [RegularExpression(@"^\d{1,3}$", ErrorMessage = "Некорректно заполнено поле")]
         [Range(0, 100, ErrorMessage = "Размер скидки от 0% до 100%")]
         public byte Discount { get; set; }
 
