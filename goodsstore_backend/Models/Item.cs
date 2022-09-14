@@ -28,7 +28,8 @@ namespace goodsstore_backend.Models
 
         [Column("PRICE", TypeName = "decimal(18, 2)")]
         [DisplayName("Цена за шт.")]
-        [Required(ErrorMessage = "Неправильная цена")]
+        [DataType(DataType.Currency)]
+        [Required(ErrorMessage = "Некорректная цена")]
         [Range(0, int.MaxValue, ErrorMessage = "Цена должна быть больше 0")]
         public decimal Price { get; set; }
 

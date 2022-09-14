@@ -1,0 +1,29 @@
+﻿@model goodsstore_backend.Models.Order
+
+<h2>Создание заказа</h2>
+<form asp-action="create">
+    <div>
+        <p>
+            <label asp-for="CustomerId"></label> <br />
+            <select asp-for="CustomerId" asp-items="ViewBag.Customers"></select> <br />
+        </p>
+        <p>
+            <label asp-for="OrderDate"></label> <br />
+            <input type="date" asp-for="OrderDate" value=@DateTime.Now.Date.ToString("yyyy-MM-dd")/> 
+            <span asp-validation-for="OrderDate" /> <br />
+        </p>
+        <p>
+            <label asp-for="ShipmentDate"></label> <br />
+            <input type="date" asp-for="ShipmentDate" />
+            <span asp-validation-for="ShipmentDate" /> <br />
+        </p>
+        <p>
+            <label asp-for="Status"></label> <br />
+            <input type="text" asp-for="Status" value="Новый"/>
+            <span asp-validation-for="Status" /> <br />
+        </p>
+        <p>
+            <input type="submit" value="Создать" />
+        </p>
+    </div>
+</form>

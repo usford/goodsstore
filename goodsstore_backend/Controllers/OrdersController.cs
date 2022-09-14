@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using goodsstore_backend.Models;
 using goodsstore_backend.EFCore.Repositories.Interfaces;
 
 namespace goodsstore_backend.Controllers
 {
-    [ApiController]
-    [Route("orders")]
-    [Produces("application/json")]
-    public class OrdersController : ControllerBase
+    public class OrdersController : Controller
     {
         public OrdersController(IOrdersRepository ordersRepository, ICustomersRepository customersRepository)
         {
@@ -19,68 +17,58 @@ namespace goodsstore_backend.Controllers
         private readonly ICustomersRepository _customersRepository;
         
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Order>>> Get()
+        public async Task<ActionResult<IEnumerable<Order>>> Index()
         {
-            return Ok(await _ordersRepository.Get());
+            return View(await _ordersRepository.Get());
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> Get(Guid id)
+        public async Task<IActionResult> Create()
         {
-            Order? order = await _ordersRepository.Get(id);
-
-            if (order is null) return NotFound("Заказ с таким ID не найден");
-
-            return Ok(order);
+            ViewBag.Customers = new SelectList(await _customersRepository.Get(), "Id", "Code");
+            return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult<Order>> Post(Guid customerId, DateTime? shipmentDate = null, int orderNumber = 1, string status = "Новый")
+        public async Task<IActionResult> Create([FromForm]Order order)
         {
-            Customer? customer = await _customersRepository.Get(customerId);
-
-            if (customer is null) return NotFound("Заказчик с таким ID не найден");
-
-            var order = new Order(customerId, DateTime.Now) { 
-                ShipmentDate = shipmentDate, 
-                OrderNumber = orderNumber, 
-                Status = status
-            };
             _ordersRepository.Add(order);
 
             await _ordersRepository.SaveChangesAsync();
 
-            return Ok(order);
+            return RedirectToAction("Index");
         }
 
-        [HttpPut]
-        public async Task<ActionResult<Order>> Put(Order order)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            if (order is null) return BadRequest("Пустой заказчик");
+            Order? order = await _ordersRepository.Get(id);
 
-            Customer? customer = await _customersRepository.Get(order.CustomerId);
+            if (order != null)
+            {
+                ViewBag.Customers = new SelectList(await _customersRepository.Get(), "Id", "Code", order.CustomerId);
+                return View(order);
+            }
 
-            if (customer is null) return NotFound("Заказчик с таким ID не найден");
+            return NotFound();
+        }
 
-            Order? newOrder = await _ordersRepository.Update(order);
-
-            if (newOrder is null) return NotFound("Заказ с таким ID не найден");
+        [HttpPost]
+        public async Task<IActionResult> Edit(Order order)
+        {
+            await _ordersRepository.Update(order);
 
             await _ordersRepository.SaveChangesAsync();
 
-            return Ok(newOrder);
+            return RedirectToAction("Index");
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Order>> Delete(Guid orderId)
+        [HttpPost]
+        public async Task<IActionResult> Delete(Guid id)
         {
-            Order? order = await _ordersRepository.Remove(orderId);
-
-            if (order is null) return NotFound("Заказ с таким ID не найден");
+            await _ordersRepository.Remove(id);
 
             await _ordersRepository.SaveChangesAsync();
 
-            return Ok(order);
+            return RedirectToAction("Index");
         }
     }
 }

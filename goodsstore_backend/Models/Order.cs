@@ -1,17 +1,16 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using goodsstore_backend.Models.Attributes;
 
 namespace goodsstore_backend.Models
 {
     [Table("ORDER")]
     public class Order
     {
-        public Order(Guid customerId, DateTime orderDate)
+        public Order()
         {
             Id = Guid.NewGuid();
-            CustomerId = customerId;
-            OrderDate = orderDate;
         }
 
         [Column("ID")]
@@ -19,24 +18,30 @@ namespace goodsstore_backend.Models
         public Guid Id { get; set; }
 
         [Column("CUSTOMER_ID")]
-        [Required]
+        [DisplayName("Заказчик")]
+        [Required(ErrorMessage = "Не выбран заказчик")]
         public Guid CustomerId { get; set; }
         public Customer Customer { get; set; }
 
         [Column("ORDER_DATE")]
-        [Required]
+        [DisplayName("Дата создания заказа")]
+        [DataType(DataType.Date, ErrorMessage = "Некорректная дата")]
+        [Required(ErrorMessage = "Не выбрана дата создания заказа")]
         public DateTime OrderDate { get; set; }
 
         [Column("SHIPMENT_DATE")]
+        [DisplayName("Дата доставки")]
+        [DataType(DataType.Date, ErrorMessage = "Некорректная дата")]
         [DefaultValue(null)]
-        public DateTime? ShipmentDate { get; set; }
+        public DateTime? ShipmentDate { get; set; } = null;
 
         [Column("ORDER_NUMBER")]
         [DefaultValue(1)]
-        public int? OrderNumber { get; set; }
+        public int OrderNumber { get; set; } = 1;
 
         [Column("STATUS")]
+        [DisplayName("Статус")]
         [DefaultValue("Новый")]
-        public string? Status { get; set; }
+        public string Status { get; set; } = "Новый";
     }
 }
