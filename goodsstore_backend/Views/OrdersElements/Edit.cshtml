@@ -1,0 +1,28 @@
+﻿@model OrderElement
+
+<h2>Изменение заказа на товар</h2>
+<form asp-action="edit" asp-route-id="@Model.Id">
+    <div>
+        <p>
+            <label asp-for="OrderId"></label> <br />
+            <select asp-for="OrderId" asp-items="@ViewBag.Orders"></select> <br />
+        </p>
+        <p>
+            <label asp-for="ItemId"></label> <br />
+            <select asp-for="ItemId" asp-items="@ViewBag.Items"></select> <br />
+        </p>
+        <p>
+            <label asp-for="ItemsCount"></label> <br />
+            <input type="number" asp-for="ItemsCount"/>
+            <span asp-validation-for="ItemsCount" /> <br />
+        </p>
+        <p>
+            <label asp-for="ItemPrice"></label> <br />
+            <input type="number" asp-for="ItemPrice"/>
+            <span asp-validation-for="ItemPrice" /> <br />
+        </p>
+        <p>
+            <input type="submit" value="Изменить" />
+        </p>
+    </div>
+</form>

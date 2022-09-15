@@ -1,0 +1,57 @@
+﻿@model IEnumerable<OrderElement>
+
+<h2>Список заказов на товары</h2>
+<p><a asp-action="create">Добавить заказ на товар</a></p>
+<table>
+    <tr>
+        <th>
+            Имя заказчика
+        </th>
+        <th>
+            Код заказчика
+        </th>
+        <th>
+            Номер заказа
+        </th>
+        <th>
+            Дата доставки
+        </th>
+        <th>
+            Статус заказа
+        </th>
+        <th>
+            Наименование товара
+        </th>
+        <th>
+            Код товара
+        </th>
+        <th>
+            Количество товара
+        </th>
+        <th>
+            Цена за шт.
+        </th>
+    </tr>
+    @foreach (var orderElement in Model)
+    {
+        <tr>
+            <td>@orderElement.Order.Customer.Name</td>
+            <td>@orderElement.Order.Customer.Code</td>
+            <td>@orderElement.Order.OrderNumber</td>
+            <td>@orderElement.Order.OrderDate</td>
+            <td>@orderElement.Order.Status</td>
+            <td>@orderElement.Item.Name</td>
+            <td>@orderElement.Item.Code</td>
+            <td>@orderElement.ItemsCount</td>
+            <td>@orderElement.ItemPrice</td>
+            <td>
+                <a asp-action="edit" asp-route-id="@orderElement.Id">Изменить</a>
+            </td>
+            <td>
+                <form asp-action="delete" method="post" asp-route-id="@orderElement.Id">
+                    <input type="submit" value="удалить" />
+                </form>
+            </td>
+        </tr>
+    }
+</table>

@@ -16,7 +16,7 @@ namespace goodsstore_backend.EFCore.Repositories
         public async Task<IEnumerable<OrderElement>> Get()
         {
             return await _dbContext.OrdersElements
-                .Include(o => o.Order)
+                .Include(o => o.Order).ThenInclude(o => o.Customer)
                 .Include(o => o.Item)
                 .ToListAsync();
         }
@@ -24,7 +24,7 @@ namespace goodsstore_backend.EFCore.Repositories
         public async Task<OrderElement?> Get(Guid orderElementId)
         {
             OrderElement? orderElement = await _dbContext.OrdersElements
-                .Include(o => o.Order)
+                .Include(o => o.Order).ThenInclude(o => o.Customer)
                 .Include(o => o.Item)
                 .SingleOrDefaultAsync(x => x.Id == orderElementId);
 

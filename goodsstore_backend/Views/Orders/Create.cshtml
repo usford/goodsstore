@@ -2,10 +2,15 @@
 
 <h2>Создание заказа</h2>
 <form asp-action="create">
-    <div>
+    @if (@ViewBag.CustomersCount == 0)
+    {
+        <p>На сайте ещё не добавлены заказчики, оформить заказ невозможно</p>
+    }else
+    {
+        <div>
         <p>
             <label asp-for="CustomerId"></label> <br />
-            <select asp-for="CustomerId" asp-items="ViewBag.Customers"></select> <br />
+            <select asp-for="CustomerId" asp-items="@ViewBag.Customers"></select> <br />
         </p>
         <p>
             <label asp-for="OrderDate"></label> <br />
@@ -26,4 +31,5 @@
             <input type="submit" value="Создать" />
         </p>
     </div>
+    }  
 </form>

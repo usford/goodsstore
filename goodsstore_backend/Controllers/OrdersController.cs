@@ -22,13 +22,17 @@ namespace goodsstore_backend.Controllers
             SortState.Orders sortOrder = SortState.Orders.CustomerNameAsc)
         {
             IEnumerable<Order> orders = await SortSelection(sortOrder);
-
+            
             return View(orders);
         }
 
         public async Task<IActionResult> Create()
         {
-            ViewBag.Customers = new SelectList(await _customersRepository.Get(), "Id", "Code");
+            IEnumerable<Customer> customers = await _customersRepository.Get();
+
+            ViewBag.Customers = new SelectList(customers, "Id", "Code");
+            ViewBag.CustomersCount = customers.Count();
+
             return View();
         }
 
@@ -91,9 +95,9 @@ namespace goodsstore_backend.Controllers
                 ? SortState.Orders.OrderDateDesc
                 : SortState.Orders.OrderDateAsc;
 
-            ViewData["ShipmentDateSort"] = sortOrder == SortState.Orders.OrderDateAsc
-                ? SortState.Orders.OrderDateDesc
-                : SortState.Orders.OrderDateAsc;
+            ViewData["ShipmentDateSort"] = sortOrder == SortState.Orders.ShipmentDateAsc
+                ? SortState.Orders.ShipmentDateDesc
+                : SortState.Orders.ShipmentDateAsc;
 
             ViewData["OrderNumberSort"] = sortOrder == SortState.Orders.OrderNumberAsc
                 ? SortState.Orders.OrderNumberDesc

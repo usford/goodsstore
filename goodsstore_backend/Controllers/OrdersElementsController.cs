@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using goodsstore_backend.Models;
 using goodsstore_backend.EFCore.Repositories.Interfaces;
 
 namespace goodsstore_backend.Controllers
 {
-    [ApiController]
-    [Route("orderselements")]
-    [Produces("application/json")]
-    public class OrdersElementsController : ControllerBase
+    public class OrdersElementsController : Controller
     {
         public OrdersElementsController(
             IOrdersElementsRepository ordersElementsRepository,
@@ -24,76 +22,66 @@ namespace goodsstore_backend.Controllers
         private readonly IItemsRepository _itemsRepository;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OrderElement>>> Get()
+        public async Task<ActionResult<IEnumerable<OrderElement>>> Index()
         {
-            return Ok(await _ordersElementsRepository.Get());
+            return View(await _ordersElementsRepository.Get());
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<OrderElement>> Get(Guid id)
+        public async Task<IActionResult> Create()
         {
-            OrderElement? orderElement = await _ordersElementsRepository.Get(id);
+            IEnumerable<Order> orders = await _ordersRepository.Get();
+            IEnumerable<Item> items = await _itemsRepository.Get();
 
-            if (orderElement is null) return NotFound("Элемент заказа с таким ID не найден");
+            ViewBag.Orders = new SelectList(orders, "Id", "OrderNumber");
+            ViewBag.Items = new SelectList(items, "Id", "Code");
 
-            return Ok(orderElement);
+            return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult<OrderElement>> Post(Guid orderId, Guid itemId, int itemsCount)
+        public async Task<IActionResult> Create([FromForm]OrderElement orderElement)
         {
-            Order? order = await _ordersRepository.Get(orderId);
-            if (order is null) return NotFound("Заказ с таким ID не найден");
-
-            Item? item = await _itemsRepository.Get(itemId);
-            if (item is null) return NotFound("Товар с таким ID не найден");
-
-            if (itemsCount <= 0) return BadRequest("Неверное количество товара");
-
-            if (item.Price <= 0) return BadRequest("Неверная цена товара");
-
-            var orderElement = new OrderElement(orderId, itemId, itemsCount, item.Price);
             _ordersElementsRepository.Add(orderElement);
 
             await _ordersElementsRepository.SaveChangesAsync();
 
-            return Ok(orderElement);
+            return RedirectToAction("Index");
         }
 
-        [HttpPut]
-        public async Task<ActionResult<OrderElement>> Put(OrderElement orderElement)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            if (orderElement is null) return BadRequest("Пустой элемент заказа");
+            IEnumerable<Order> orders = await _ordersRepository.Get();
+            IEnumerable<Item> items = await _itemsRepository.Get();
+            OrderElement? orderElement = await _ordersElementsRepository.Get(id);
 
-            Order? order = await _ordersRepository.Get(orderElement.OrderId);
-            if (order is null) return NotFound("Заказ с таким ID не найден");
+            if (orderElement != null)
+            {
+                ViewBag.Orders = new SelectList(orders, "Id", "OrderNumber");
+                ViewBag.Items = new SelectList(items, "Id", "Code");
+                return View(orderElement);
+            }
 
-            Item? item = await _itemsRepository.Get(orderElement.ItemId);
-            if (item is null) return NotFound("Товар с таким ID не найден");
+            return NotFound();
+        }
 
-            if (orderElement.ItemsCount <= 0) return BadRequest("Неверное количество товара");
-
-            if (orderElement.ItemPrice <= 0) return BadRequest("Неверная цена товара");
-
-            OrderElement? newOrderElement = await _ordersElementsRepository.Update(orderElement);
-
-            if (newOrderElement is null) return NotFound("Элемент заказа с таким ID не найден");
+        [HttpPost]
+        public async Task<IActionResult> Edit(OrderElement orderElement)
+        {
+            await _ordersElementsRepository.Update(orderElement);
 
             await _ordersElementsRepository.SaveChangesAsync();
 
-            return Ok(newOrderElement);
+            return RedirectToAction("Index");
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<OrderElement>> Delete(Guid orderElementId)
+        [HttpPost]
+        public async Task<IActionResult> Delete(Guid id)
         {
-            OrderElement? orderElement = await _ordersElementsRepository.Remove(orderElementId);
-
-            if (orderElement is null) return NotFound("Элемент заказа с таким ID не найден");
+            await _ordersElementsRepository.Remove(id);
 
             await _ordersElementsRepository.SaveChangesAsync();
 
-            return Ok(orderElement);
+            return RedirectToAction("Index");
         }
     }
 }

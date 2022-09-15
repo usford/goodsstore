@@ -34,7 +34,7 @@
             <td>@customer.Address</td>
             <td>@customer.Discount%</td>
             <td>
-                <a asp-action="Edit" asp-route-id="@customer.Id">Изменить</a>
+                <a asp-action="edit" asp-route-id="@customer.Id">Изменить</a>
             </td>
             <td>
                 <form asp-action="delete" method="post" asp-route-id="@customer.Id">
