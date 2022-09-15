@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 using goodsstore_backend.Models;
+using goodsstore_backend.Enums;
 using goodsstore_backend.EFCore.Repositories.Interfaces;
 
 namespace goodsstore_backend.Controllers
@@ -15,9 +16,13 @@ namespace goodsstore_backend.Controllers
         private readonly ICustomersRepository _customersRepository;
                
         [HttpGet]      
-        public async Task<ActionResult<IEnumerable<Customer>>> Index()
+        public async Task<ActionResult<IEnumerable<Customer>>> Index(
+            SortState.Customers sortOrder = SortState.Customers.NameAsc
+            )
         {
-            return View(await _customersRepository.Get());
+            IEnumerable<Customer> customers = await SortSelection(sortOrder);
+
+            return View(customers);
         }
     
         public IActionResult Create()
@@ -62,6 +67,41 @@ namespace goodsstore_backend.Controllers
             await _customersRepository.SaveChangesAsync();
 
             return RedirectToAction("Index");
+        }
+
+        public async Task<IEnumerable<Customer>> SortSelection(SortState.Customers sortOrder)
+        {
+            IEnumerable<Customer> customers = await _customersRepository.Get();
+
+            ViewData["NameSort"] = sortOrder == SortState.Customers.NameAsc
+                ? SortState.Customers.NameDesc
+                : SortState.Customers.NameAsc;
+
+            ViewData["CodeSort"] = sortOrder == SortState.Customers.CodeAsc
+                ? SortState.Customers.CodeDesc
+                : SortState.Customers.CodeAsc;
+
+            ViewData["AddressSort"] = sortOrder == SortState.Customers.AddressAsc
+                ? SortState.Customers.AddressDesc
+                : SortState.Customers.AddressAsc;
+
+            ViewData["DiscoutSort"] = sortOrder == SortState.Customers.DiscountAsc
+                ? SortState.Customers.DiscountDesc
+                : SortState.Customers.DiscountAsc;
+
+            customers = sortOrder switch
+            {
+                SortState.Customers.NameDesc => customers.OrderByDescending(c => c.Name),
+                SortState.Customers.CodeAsc => customers.OrderBy(c => c.Code),
+                SortState.Customers.CodeDesc => customers.OrderByDescending(c => c.Code),
+                SortState.Customers.AddressAsc => customers.OrderBy(c => c.Address),
+                SortState.Customers.AddressDesc => customers.OrderByDescending(c => c.Address),
+                SortState.Customers.DiscountAsc => customers.OrderBy(c => c.Discount),
+                SortState.Customers.DiscountDesc => customers.OrderByDescending(c => c.Discount),
+                _ => customers.OrderBy(c => c.Name)
+            };
+
+            return customers;
         }
     }
 }

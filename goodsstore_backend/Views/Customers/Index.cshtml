@@ -1,14 +1,30 @@
-﻿@model IEnumerable<goodsstore_backend.Models.Customer>
+﻿@model IEnumerable<Customer>
 
 
 <h2>Список заказчиков</h2>
 <p><a asp-action="create">Добавить заказчика</a></p>
 <table>
     <tr>
-        <th>Имя</th>
-        <th>Код</th>
-        <th>Адрес</th>
-        <th>Скидка</th>
+        <th>
+            <a asp-action="index" asp-route-sortOrder="@ViewBag.NameSort">
+                Имя
+            </a>
+        </th>
+        <th>
+            <a asp-action="index" asp-route-sortOrder="@ViewBag.CodeSort">
+                Код
+            </a>
+        </th>
+        <th>
+            <a asp-action="index" asp-route-sortOrder="@ViewBag.AddressSort">
+                Адрес
+            </a>
+        </th>
+        <th>
+            <a asp-action="index" asp-route-sortOrder="@ViewBag.DiscoutSort">
+                Скидка
+            </a>
+        </th>
     </tr>
     @foreach (var customer in Model)
     {
