@@ -1,15 +1,39 @@
-﻿@model IEnumerable<goodsstore_backend.Models.Order>
+﻿@model IEnumerable<Order>
 
 <h2>Список заказов</h2>
 <p><a asp-action="create">Добавить заказ</a></p>
 <table>
     <tr>
-        <th>Имя заказчика</th>
-        <th>Код заказчика</th>
-        <th>Дата создания заказа</th>
-        <th>Дата доставки</th>
-        <th>Номер заказа</th>
-        <th>Состояние заказа</th>
+        <th>
+            <a asp-action="index" asp-route-sortOrder="@ViewBag.CustomerNameSort">
+                Имя заказчика
+            </a>
+        </th>
+        <th>
+            <a asp-action="index" asp-route-sortOrder="@ViewBag.CustomerCodeSort">
+                Код заказчика
+            </a>
+        </th>
+        <th>
+            <a asp-action="index" asp-route-sortOrder="@ViewBag.OrderDateSort">
+                Дата создания заказа
+            </a>
+        </th>
+        <th>
+            <a asp-action="index" asp-route-sortOrder="@ViewBag.ShipmentDateSort">
+                Дата доставки
+            </a>
+        </th>
+        <th>
+            <a asp-action="index" asp-route-sortOrder="@ViewBag.OrderNumberSort">
+                Номер заказа
+            </a>
+        </th>
+        <th>
+            <a asp-action="index" asp-route-sortOrder="@ViewBag.StatusSort">
+                Состояние заказа
+            </a>
+        </th>
     </tr>
     @foreach (var order in Model)
     {

@@ -25,5 +25,21 @@
             CategoryAsc,
             CategoryDesc
         }
+
+        public enum Orders
+        {
+            CustomerNameAsc,
+            CustomerNameDesc,
+            CustomerCodeAsc,
+            CustomerCodeDesc,
+            OrderDateAsc,
+            OrderDateDesc,
+            ShipmentDateAsc,
+            ShipmentDateDesc,
+            OrderNumberAsc,
+            OrderNumberDesc,
+            StatusAsc,
+            StatusDesc
+        }
     }
 }
